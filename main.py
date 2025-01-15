@@ -2,6 +2,8 @@ import tkinter as tk
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 import requests
+import pygame
+import sys
 
 def lookUp(word):
     response = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}")
@@ -20,6 +22,13 @@ def search():
     if len(word) > 0 :
         result = lookUp(word)
         print(result)
+
+# fnction for audio
+def playAudio(src):
+    pygame.init()
+    pygame.mixer.music.load(src)
+    pygame.mixer.music.play()
+
 
 root = ttk.Window() # same as tk.Tk() from tkinter
 
@@ -52,6 +61,6 @@ entry = ttk.Entry(searchBox, width=50, font=("Arial", 12))
 entry.pack(side=LEFT, padx=5)
 
 # Button
-button = ttk.Button(searchBox, text="Look Up", command=search, style='Outline.TButton')
+button = ttk.Button(searchBox, text="Look Up", command=lambda: playAudio("https://api.dictionaryapi.dev/media/pronunciations/en/fuck%20you-us.mp3"), style='Outline.TButton')
 button.pack(side=RIGHT, padx=5)
 root.mainloop()
