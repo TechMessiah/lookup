@@ -29,7 +29,6 @@ style.configure('TEntry', font=('Helvetica', 18), padding=10, relief=RAISED) # s
 
 root.title("Dictionary")
 root.geometry("600x400")
-root.resizable(False, False)
 
 # Banner
 banner = ttk.Frame(root)
