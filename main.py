@@ -21,7 +21,6 @@ def search(resultsArea):
     if len(word) > 0 :
         result = lookUp(word)
         
-        
         for meaning in result["meanings"]:
             
             partOfSpeech = ttk.Label(resultsArea, text=meaning['partOfSpeech'], wraplength=600) 
