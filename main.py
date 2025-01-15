@@ -12,7 +12,7 @@ def lookUp(word):
         "phonetics": results[0]["phonetics"],
         "meanings": results[0]["meanings"],
     })
-
+    
     return result
 
 # function used by button to lookup words
@@ -21,10 +21,15 @@ def search(resultsArea):
     if len(word) > 0 :
         result = lookUp(word)
         
-        print(result)
+        
+        for meaning in result["meanings"]:
             
-        definitions = ttk.Label(resultsArea, text=result, wraplength=600) 
-        definitions.pack(pady=10)
+            partOfSpeech = ttk.Label(resultsArea, text=meaning['partOfSpeech'], wraplength=600) 
+            partOfSpeech.pack(pady=10)
+            
+            definitions = "\n".join([defDict['definition'] for defDict in meaning['definitions']])
+            definition = ttk.Label(resultsArea, text=definitions, wraplength=600) 
+            definition.pack(pady=10)
 
 root = ttk.Window() # same as tk.Tk() from tkinter
 
