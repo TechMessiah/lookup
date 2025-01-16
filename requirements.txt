@@ -1,4 +1,3 @@
 ttkbootstrap
 requests
-pygame
-mutagen
+pydub
