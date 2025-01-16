@@ -77,7 +77,7 @@ logoLabel = ttk.Label(mainLayout, image=logo)
 logoLabel.pack(pady=10)
 
 # Welcome message
-welcome = ttk.Label(mainLayout, text="Welcome !", font=("Comic Sans MS", 30))
+welcome = ttk.Label(mainLayout, text="Look it up, genius!", font=("Comic Sans MS", 30))
 welcome.pack(pady=10)
 
 # Search Box Frame
