@@ -39,7 +39,6 @@ def search(resultsArea):
 def play_audio():
     text = entry.get()
     tts = gTTS(text)
-    tts.save(text)
 
     pygame.mixer.music.load(text)
     pygame.mixer.music.play()
