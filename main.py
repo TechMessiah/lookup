@@ -1,13 +1,10 @@
 import tkinter as tk
 from tkinter import *
 import ttkbootstrap as ttk
-from gtts import gTTS
-import pygame
 from ttkbootstrap.constants import *
 from ttkbootstrap.scrolled import ScrolledFrame
 import requests
 
-pygame.mixer.init()
 
 def lookUp(word):
     response = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}")
@@ -61,16 +58,13 @@ def search(resultsArea):
             # audio
             print(audio)
             audioIcon = tk.PhotoImage(file="./images/play.png", width=25, height=25)
-            audio = ttk.Button(soundBar, image=audioIcon, command=lambda: play_audio(audio)) 
+            audio = ttk.Label(soundBar, image=audioIcon) 
             audio.grid(column=2, row=0)
             
             definitions = "\n\n".join([defDict['definition'] for defDict in meaning['definitions']])
             definition = ttk.Label(resultsArea, text=definitions, width=250, font=("Comic Sans MS", 16), wraplength=600, justify="left", padding=5) 
             definition.pack(pady=10, padx=100, anchor="center")
 
-def play_audio(src):
-    pygame.mixer.music.load(src)
-    pygame.mixer.music.play()
 
 root = ttk.Window() # same as tk.Tk() from tkinter
 
@@ -105,7 +99,7 @@ searchBox = ttk.Frame(root)
 searchBox.pack(pady=20)
 
 # Entry field
-entry = ttk.Entry(searchBox, width=50, font=("Arial", 12))
+entry = ttk.Entry(searchBox, width=50, font=("Comic Sans MS", 12))
 entry.pack(side=LEFT, padx=5)
 
 # enabling scrolling
