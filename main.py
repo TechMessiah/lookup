@@ -35,7 +35,7 @@ def search(resultsArea):
             
             # frame for pronounciation
             soundBar = ttk.Frame(resultsArea)
-            soundBar.pack(fill="x")
+            soundBar.pack(fill="x", padx=100)
             
             partOfSpeech = ttk.Label(soundBar, text=meaning['partOfSpeech'], justify="left", font=("Comic Sans MS", 13), style="info.TLabel") 
             partOfSpeech.grid(column=0, row=0)
@@ -51,7 +51,7 @@ def search(resultsArea):
             
             definitions = "\n\n".join([defDict['definition'] for defDict in meaning['definitions']])
             definition = ttk.Label(resultsArea, text=definitions, width=250, font=("Comic Sans MS", 16), wraplength=600, justify="left", padding=5) 
-            definition.pack(pady=10, anchor="center")
+            definition.pack(pady=10, padx=100, anchor="center")
 
 root = ttk.Window() # same as tk.Tk() from tkinter
 
@@ -64,19 +64,20 @@ style.configure("Outline.TButton", font=("Comic Sans MS", 12, "bold"), padding=1
 style.configure('TEntry', font=('Helvetica', 18), padding=10) # setting style for entry field
 
 root.title("Dictionary")
-root.geometry("600x400")
+root.geometry("800x500")
+root.resizable(False,False)
 
 # Banner
 banner = ttk.Frame(root)
 banner.pack(pady=20)
 
 # Logo
-logo = tk.PhotoImage(file="images/logo.png")
+logo = tk.PhotoImage(file="images/book.png")
 logoLabel = ttk.Label(mainLayout, image=logo)
 logoLabel.pack(pady=10)
 
 # Welcome message
-welcome = ttk.Label(mainLayout, text="Welcome !", font=("Arial", 30, "bold"))
+welcome = ttk.Label(mainLayout, text="Welcome !", font=("Comic Sans MS", 30))
 welcome.pack(pady=10)
 
 # Search Box Frame
@@ -84,7 +85,7 @@ searchBox = ttk.Frame(mainLayout)
 searchBox.pack(pady=20)
 
 # Entry field
-entry = ttk.Entry(searchBox, width=50, font=("Arial", 12))
+entry = ttk.Entry(searchBox, width=60, font=("Comic Sans MS", 12))
 entry.pack(side=LEFT, padx=5)
 
 # Button
