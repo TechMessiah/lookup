@@ -16,8 +16,14 @@ def lookUp(word):
     
     return result
 
+# clear resutls
+def clearResults(widget):
+    for child in widget.winfo_children():
+        child.destroy()
+
 # function used by button to lookup words
 def search(resultsArea):
+    clearResults(resultsArea)
     word = entry.get()
     if len(word) > 0 :
         result = lookUp(word)
@@ -53,18 +59,15 @@ def search(resultsArea):
             definition = ttk.Label(resultsArea, text=definitions, width=250, font=("Comic Sans MS", 16), wraplength=600, justify="left", padding=5) 
             definition.pack(pady=10, padx=100, anchor="center")
 
-root = ttk.Window() # same as tk.Tk() from tkinter
 
-# enabling scrolling
-mainLayout = ScrolledFrame(root, autohide=True)
-mainLayout.pack(fill=BOTH, expand=YES, anchor="center")
+root = ttk.Window() # same as tk.Tk() from tkinter
 
 style = ttk.Style("litera") # setting theme for the interface
 style.configure("Outline.TButton", font=("Comic Sans MS", 12, "bold"), padding=10) # setting style for buttons
 style.configure('TEntry', font=('Helvetica', 18), padding=10) # setting style for entry field
 
 root.title("Dictionary")
-root.geometry("800x500")
+root.geometry("800x600")
 root.resizable(False,False)
 
 # Banner
@@ -73,20 +76,24 @@ banner.pack(pady=20)
 
 # Logo
 logo = tk.PhotoImage(file="images/book.png")
-logoLabel = ttk.Label(mainLayout, image=logo)
+logoLabel = ttk.Label(root, image=logo)
 logoLabel.pack(pady=10)
 
 # Welcome message
-welcome = ttk.Label(mainLayout, text="Look it up, genius!", font=("Comic Sans MS", 30))
+welcome = ttk.Label(root, text="Look it up, genius!", font=("Comic Sans MS", 30))
 welcome.pack(pady=10)
 
 # Search Box Frame
-searchBox = ttk.Frame(mainLayout)
+searchBox = ttk.Frame(root)
 searchBox.pack(pady=20)
 
 # Entry field
 entry = ttk.Entry(searchBox, width=60, font=("Comic Sans MS", 12))
 entry.pack(side=LEFT, padx=5)
+
+# enabling scrolling
+mainLayout = ScrolledFrame(root, autohide=True)
+mainLayout.pack(fill=BOTH, expand=YES, anchor="center")
 
 # Button
 button = ttk.Button(searchBox, text="Look Up", command=lambda: search(mainLayout), style='Outline.TButton')
