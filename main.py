@@ -42,7 +42,10 @@ def search(resultsArea):
             else:
                 phonetic = None
                 
-            audio = meaningDict["audio"]
+            if "audio" in meaningDict.keys():
+                audio = meaningDict["audio"]
+            else:
+                audio = None
             
             # frame for pronounciation
             soundBar = ttk.Frame(resultsArea)
@@ -56,20 +59,17 @@ def search(resultsArea):
                 phonetics.grid(column=1, row=0)
             
             # audio
+            print(audio)
             audioIcon = tk.PhotoImage(file="./images/play.png", width=25, height=25)
-            audio = ttk.Label(soundBar, image=audioIcon) 
+            audio = ttk.Button(soundBar, image=audioIcon, command=lambda: play_audio(audio)) 
             audio.grid(column=2, row=0)
             
             definitions = "\n\n".join([defDict['definition'] for defDict in meaning['definitions']])
             definition = ttk.Label(resultsArea, text=definitions, width=250, font=("Comic Sans MS", 16), wraplength=600, justify="left", padding=5) 
             definition.pack(pady=10, padx=100, anchor="center")
 
-def play_audio():
-    text = entry.get()
-    tts = gTTS(text)
-    tts.save(text)
-
-    pygame.mixer.music.load(text)
+def play_audio(src):
+    pygame.mixer.music.load(src)
     pygame.mixer.music.play()
 
 root = ttk.Window() # same as tk.Tk() from tkinter
@@ -116,7 +116,5 @@ mainLayout.pack(fill=BOTH, expand=YES, anchor="center")
 button = ttk.Button(searchBox, text="Look Up", command=lambda: search(mainLayout), style='Outline.TButton')
 button.pack(side=RIGHT, padx=5)
 
-voice_btn = ttk.Button(searchBox, text='voice', command=play_audio)
-voice_btn.pack()
 
 root.mainloop()
