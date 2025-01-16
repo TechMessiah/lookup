@@ -62,6 +62,7 @@ root.config(bg='grey')
 banner = ttk.Frame(root)
 banner.pack(pady=20)
 
+
 # Logo
 logo = tk.PhotoImage(file="images/logo.png")
 logoLabel = ttk.Label(mainLayout, image=logo)
