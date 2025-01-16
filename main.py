@@ -27,7 +27,7 @@ def clearResults(widget):
 
 # function used by button to lookup words
 def search(resultsArea):
-    clearResults(resultsArea)
+    clearResults(resultsArea) # clears previous search results
     word = entry.get()
     if len(word) > 0 :
         result = lookUp(word)
@@ -52,7 +52,6 @@ def search(resultsArea):
             soundBar.pack(fill="x", padx=100)
 
             # audio
-            audioIcon = tk.PhotoImage(file="./images/play.png", width=25, height=25)
             audio = ttk.Button(soundBar, text="Play", command=lambda: play_audio(audioSrc))
             audio.grid(column=0, row=0)
 
@@ -74,9 +73,6 @@ def play_audio(src):
         tts.save(audioFile)
         sound = pygame.mixer.Sound(audioFile)
         sound.play()
-
-        while pygame.mixer.get_busy():
-            pygame.time.delay(100)
 
 root = ttk.Window() # same as tk.Tk() from tkinter
 
