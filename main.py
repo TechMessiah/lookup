@@ -53,7 +53,7 @@ def search(resultsArea):
 
             # audio
             audioIcon = tk.PhotoImage(file="./images/play.png", width=25, height=25)
-            audio = ttk.Button(soundBar, image=audioIcon, command=lambda: play_audio(audioSrc))
+            audio = ttk.Button(soundBar, text="Play", command=lambda: play_audio(audioSrc))
             audio.grid(column=0, row=0)
 
             partOfSpeech = ttk.Label(soundBar, text=meaning['partOfSpeech'], justify="left", font=("Comic Sans MS", 13), style="info.TLabel")
@@ -90,7 +90,7 @@ style.configure('TEntry', font=('Helvetica', 18), padding=10, relief=RAISED) # s
 
 root.title("Dictionary")
 root.geometry("800x500")
-root.resizable(False,False)
+# root.resizable(False,False)
 
 # Banner
 banner = ttk.Frame(root)
