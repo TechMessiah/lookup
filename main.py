@@ -2,6 +2,7 @@ import tkinter as tk
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 from ttkbootstrap.scrolled import ScrolledFrame
+from ttkbootstrap.icons import Icon
 import requests
 
 def lookUp(word):
@@ -23,22 +24,44 @@ def search(resultsArea):
         
         for meaning in result["meanings"]:
             
-            partOfSpeech = ttk.Label(resultsArea, text=meaning['partOfSpeech'], wraplength=600) 
-            partOfSpeech.pack(pady=10)
+            meaningDict = result["phonetics"][result["meanings"].index(meaning)]
             
-            definitions = "\n".join([defDict['definition'] for defDict in meaning['definitions']])
-            definition = ttk.Label(resultsArea, text=definitions, wraplength=600) 
-            definition.pack(pady=10)
+            if "text" in meaningDict.keys():
+                phonetic = meaningDict["text"]
+            else:
+                phonetic = None
+                
+            audio = meaningDict["audio"]
+            
+            # frame for pronounciation
+            soundBar = ttk.Frame(resultsArea)
+            soundBar.pack(fill="x")
+            
+            partOfSpeech = ttk.Label(soundBar, text=meaning['partOfSpeech'], justify="left", font=("Comic Sans MS", 13), style="info.TLabel") 
+            partOfSpeech.grid(column=0, row=0)
+            
+            if phonetic != "" or phonetic != None:
+                phonetics = ttk.Label(soundBar, text=phonetic, justify="left", font=("Comic Sans MS", 13), style="danger.TLabel")
+                phonetics.grid(column=1, row=0)
+            
+            # audio
+            audioIcon = tk.PhotoImage(file="./images/play.png", width=25, height=25)
+            audio = ttk.Label(soundBar, image=audioIcon) 
+            audio.grid(column=2, row=0)
+            
+            definitions = "\n\n".join([defDict['definition'] for defDict in meaning['definitions']])
+            definition = ttk.Label(resultsArea, text=definitions, width=250, font=("Comic Sans MS", 16), wraplength=600, justify="left", padding=5) 
+            definition.pack(pady=10, anchor="center")
 
 root = ttk.Window() # same as tk.Tk() from tkinter
 
 # enabling scrolling
 mainLayout = ScrolledFrame(root, autohide=True)
-mainLayout.pack(fill=BOTH, expand=YES, padx=10, pady=10)
+mainLayout.pack(fill=BOTH, expand=YES, anchor="center")
 
 style = ttk.Style("litera") # setting theme for the interface
-style.configure("Outline.TButton", font=("Arial", 12, "bold"), padding=10, relief=RAISED) # setting style for buttons
-style.configure('TEntry', font=('Helvetica', 18), padding=10, relief=RAISED) # setting style for entry field
+style.configure("Outline.TButton", font=("Comic Sans MS", 12, "bold"), padding=10) # setting style for buttons
+style.configure('TEntry', font=('Helvetica', 18), padding=10) # setting style for entry field
 
 root.title("Dictionary")
 root.geometry("600x400")
