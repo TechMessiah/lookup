@@ -4,8 +4,10 @@ import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 from ttkbootstrap.scrolled import ScrolledFrame
 import requests
-from pydub import AudioSegment
-from pydub import play
+from gtts import gTTS
+import pygame
+
+pygame.mixer.init()
 
 def lookUp(word):
     response = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}")
@@ -15,7 +17,7 @@ def lookUp(word):
         "phonetics": results[0]["phonetics"],
         "meanings": results[0]["meanings"],
     })
-    
+
     return result
 
 # clear resutls
@@ -29,49 +31,52 @@ def search(resultsArea):
     word = entry.get()
     if len(word) > 0 :
         result = lookUp(word)
-        
-        
+
+
         for meaning in result["meanings"]:
-            
+
             meaningDict = result["phonetics"][result["meanings"].index(meaning)]
-            
+
             if "text" in meaningDict.keys():
                 phonetic = meaningDict["text"]
             else:
                 phonetic = None
-                
+
             if "audio" in meaningDict.keys():
                 audioSrc = meaningDict["audio"]
             else:
                 audioSrc = None
-            
+
             # frame for pronounciation
             soundBar = ttk.Frame(resultsArea)
             soundBar.pack(fill="x", padx=100)
-            
+
             # audio
             audioIcon = tk.PhotoImage(file="./images/play.png", width=25, height=25)
-            audio = ttk.Button(soundBar, image=audioIcon, command=lambda: play_audio(audioSrc)) 
+            audio = ttk.Button(soundBar, image=audioIcon, command=lambda: play_audio(audioSrc))
             audio.grid(column=0, row=0)
-            
-            partOfSpeech = ttk.Label(soundBar, text=meaning['partOfSpeech'], justify="left", font=("Comic Sans MS", 13), style="info.TLabel") 
+
+            partOfSpeech = ttk.Label(soundBar, text=meaning['partOfSpeech'], justify="left", font=("Comic Sans MS", 13), style="info.TLabel")
             partOfSpeech.grid(column=1, row=0)
-            
+
             if phonetic != "" or phonetic != None:
                 phonetics = ttk.Label(soundBar, text=phonetic, justify="left", font=("Comic Sans MS", 13), style="danger.TLabel")
                 phonetics.grid(column=2, row=0)
-            
+
             definitions = "\n\n".join([defDict['definition'] for defDict in meaning['definitions']])
-            definition = ttk.Label(resultsArea, text=definitions, width=250, font=("Comic Sans MS", 16), wraplength=600, justify="left", padding=5) 
+            definition = ttk.Label(resultsArea, text=definitions, width=250, font=("Comic Sans MS", 16), wraplength=600, justify="left", padding=5)
             definition.pack(pady=10, padx=100, anchor="center")
 
 def play_audio(src):
-    if src != None or src != "":
-        song = AudioSegment.from_mp3("note.mp3")
-        print(f'playing {src}')
-        play(song)
-    else:
-        print("Use Google")
+        text = entry.get()
+        audioFile = "speak.mp3"
+        tts = gTTS(text=text, lang="en")
+        tts.save(audioFile)
+        sound = pygame.mixer.Sound(audioFile)
+        sound.play()
+
+        while pygame.mixer.get_busy():
+            pygame.time.delay(100)
 
 root = ttk.Window() # same as tk.Tk() from tkinter
 
