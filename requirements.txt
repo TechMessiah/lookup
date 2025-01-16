@@ -2,4 +2,3 @@ ttkbootstrap
 requests
 pygame
 mutagen
-pyglet
