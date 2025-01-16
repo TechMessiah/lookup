@@ -1,8 +1,13 @@
 import tkinter as tk
+from tkinter import *
 import ttkbootstrap as ttk
+from gtts import gTTS
+import pygame
 from ttkbootstrap.constants import *
 from ttkbootstrap.scrolled import ScrolledFrame
 import requests
+
+pygame.mixer.init()
 
 def lookUp(word):
     response = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}")
@@ -31,6 +36,15 @@ def search(resultsArea):
             definition = ttk.Label(resultsArea, text=definitions, wraplength=600) 
             definition.pack(pady=10)
 
+def play_audio():
+    text = entry.get()
+    tts = gTTS(text)
+    tts.save(text)
+
+    pygame.mixer.music.load(text)
+    pygame.mixer.music.play()
+
+
 root = ttk.Window() # same as tk.Tk() from tkinter
 
 # enabling scrolling
@@ -43,7 +57,7 @@ style.configure('TEntry', font=('Helvetica', 18), padding=10, relief=RAISED) # s
 
 root.title("Dictionary")
 root.geometry("600x400")
-
+root.config(bg='grey')
 # Banner
 banner = ttk.Frame(root)
 banner.pack(pady=20)
@@ -68,5 +82,8 @@ entry.pack(side=LEFT, padx=5)
 # Button
 button = ttk.Button(searchBox, text="Look Up", command=lambda: search(mainLayout), style='Outline.TButton')
 button.pack(side=RIGHT, padx=5)
+
+voice_btn = ttk.Button(searchBox, text='voice', command=play_audio)
+voice_btn.pack()
 
 root.mainloop()
